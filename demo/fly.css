@@ -1,0 +1,28 @@
+.fly .slider-circle {
+  display: none;
+}
+
+.fly .slider {
+  height: 1px;
+  background: #999;
+  border: none;
+}
+
+.fly .slider-fill {
+  height: 5px;
+  top: -2.5px;
+}
+
+.fly .handle {
+  width: 22px;
+  height: 22px;
+  border-radius: 22px;
+  border-color: #999;
+}
+
+.fly .handle:active {
+  border-color: #0a84c1;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+}

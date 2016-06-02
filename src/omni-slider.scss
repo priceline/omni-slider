@@ -1,0 +1,78 @@
+$black: #000;
+$blue: #0a84c1;
+$white: #fff;
+$base-font-size: 14px;
+
+.slider {
+  width: 100%;
+  height: 0.7rem;
+  border: 1px solid $black;
+  position: relative;
+
+  &.one-way .handle.handle-left {
+    visibility: hidden;
+  }
+
+  .slider-circle {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background-color: $blue;
+    position: relative;
+    display: inline-block;
+    margin-top: 1rem;
+    pointer-events: none;
+    -webkit-user-select: none;
+  }
+
+  .handle {
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 2.6rem;
+    position: absolute;
+    top: -1rem;
+    border: 1px solid $black;
+    background-color: $white;
+    text-align: center;
+    cursor: pointer;
+    z-index: 1;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+
+    &.ontop {
+      z-index: 2;
+    }
+
+    &:active {
+      border-color: $blue;
+      box-shadow: 0 0 0.5rem $blue;
+    }
+  }
+
+  .handle-left {
+    left: 0;
+  }
+
+  .handle-right {
+    right: 0;
+  }
+
+  .slider-fill {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: $blue;
+    pointer-events: none;
+    -webkit-user-select: none;
+  }
+
+  .slider-transition {
+    transition: all 0.5s ease;
+  }
+}
+
+@function calcRem($size) {
+  $remSize: $size / $base-font-size;
+  @return #{$remSize}rem;
+}

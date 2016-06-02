@@ -1,0 +1,22 @@
+{
+  "name": "omni-slider",
+  "main": "omni-slider.js",
+  "version": "1.0.0",
+  "authors": [
+    "Chris Ng"
+  ],
+  "description": "A two (or one) way vanilla js slider that runs from ie8 to *",
+  "keywords": [
+    "slider",
+    "priceline"
+  ],
+  "license": "MIT",
+  "homepage": "priceline.com",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
