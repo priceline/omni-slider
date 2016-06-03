@@ -7,6 +7,7 @@
     "start": "gulp",
     "watch": "gulp",
     "build": "gulp",
+    "deploy": "gulp deploy",
     "prebuild": "npm run setup",
     "setup": "npm install",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -30,6 +31,7 @@
     "gulp-concat": "^2.3.4",
     "gulp-cssnano": "^2.1.0",
     "gulp-eslint": "^1.1.1",
+    "gulp-gh-pages": "^0.5.4",
     "gulp-iife": "^0.2.4",
     "gulp-jasmine": "^2.2.1",
     "gulp-jshint": "^1.8.4",

@@ -1,0 +1,253 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="initial-scale=1, width=320.1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>Slider Testbed Demo</title>
+    <link rel="stylesheet" href="http://meyerweb.com/eric/tools/css/reset/reset.css">
+    <link rel="stylesheet" href="./omni-slider.css">
+    <link rel="stylesheet" href="./demo/fly.css">
+
+    <style>
+      html {
+        font-size: 13px;
+      }
+
+      body {
+        font-family: Helvetica,Arial,sans-serif;
+        line-height: 16px;
+        margin: 20px;
+      }
+
+      h1 {
+        font-size: 39px;
+      }
+
+      h2 {
+        font-size: 26px;
+        font-weight: 700;
+        color: #0a84c1;
+        margin-top: 40px;
+      }
+
+      strong {
+        font-weight: 700;
+      }
+
+      small {
+        font-size: smaller;
+        color: darkgrey;
+      }
+
+      code {
+        font-family: Courier New, serif;
+        width: 190px;
+        height: 100px;
+        margin: 10px 0 10px 0;
+        display: inline-block;
+        white-space: pre;
+      }
+
+      .container {
+        width: 200px;
+        display: inline-block;
+      }
+
+      .fly-search-filters-time-title {
+        font-size: 12px;
+        width: 100%;
+        display: table;
+      }
+
+      .wrap {
+        margin-top: 10px;
+        position: relative;
+      }
+
+      .title {
+        color: #000;
+        font-weight: 400;
+        font-size: 16px;
+        margin: 6px 20px 0 0;
+        display: inline-block;
+      }
+
+      @media screen and (max-width: 500px) {
+        code {
+          display: none;
+        }
+
+        h2 {
+          margin-bottom: 20px;
+        }
+
+        .title {
+          margin-bottom: 20px;
+        }
+      }
+    </style>
+  </head>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.8/es5-shim.js"></script>
+  <script type="text/javascript" src="./omni-slider.js"></script>
+
+  <script>
+  window.onload = function() {
+    // -=-=-=-=- SLIDER 1 -=-=-=-=-
+    var slider1 = new Slider(document.getElementById('slider1'), {
+      isDate: true,
+      min: "2015-08-12T03:00",
+      max: "2015-08-12T23:59",
+      start: "2015-08-12T12:22",
+      end: "2015-08-12T16:21",
+      overlap: false
+    });
+    slider1.subscribe('start', function(data) {
+      document.getElementById('min1').innerHTML = data.left.toLocaleString();
+      document.getElementById('max1').innerHTML = data.right.toLocaleString();
+    });
+    slider1.subscribe('moving', function(data) {
+      document.getElementById('min1').innerHTML =
+        data.left.getHours() + ':' + data.left.getMinutes();
+      document.getElementById('max1').innerHTML =
+        data.right.getHours() + ':' + data.right.getMinutes();
+    });
+    slider1.subscribe('stop', function(data) {
+      document.getElementById('min1').innerHTML = data.left.toLocaleString();
+      document.getElementById('max1').innerHTML = data.right.toLocaleString();
+    });
+    document.getElementById('min1').innerHTML = slider1.getInfo().left.toLocaleString();
+    document.getElementById('max1').innerHTML = slider1.getInfo().right.toLocaleString();
+
+    // -=-=-=-=- SLIDER 2 -=-=-=-=-
+    var slider2 = new Slider(document.getElementById('slider2'), {
+      isDate: true,
+      min: "2014-01-01T00:00",
+      max: "2015-08-12T23:59",
+      start: "2014-08-01T00:00",
+      end: "2014-07-31T23:59",
+      overlap: true
+    });
+    slider2.subscribe('moving', function(data) {
+      document.getElementById('min2').innerHTML = data.left.toLocaleString();
+      document.getElementById('max2').innerHTML = data.right.toLocaleString();
+    });
+    document.getElementById('min2').innerHTML = slider2.getInfo().left.toLocaleString();
+    document.getElementById('max2').innerHTML = slider2.getInfo().right.toLocaleString();
+
+    // -=-=-=-=- SLIDER 3 -=-=-=-=-
+    var slider3 = new Slider(document.getElementById('slider3'), {
+      isDate: false,
+      min: 0,
+      max: 365,
+      start: 100,
+      end: 200,
+      overlap: true
+    });
+    slider3.subscribe('moving', function(data) {
+      document.getElementById('min3').innerHTML = '$' + Math.round(data.left);
+      document.getElementById('max3').innerHTML = '$' + Math.round(data.right);
+    });
+    document.getElementById('min3').innerHTML = '$' + Math.round(slider3.getInfo().left);
+    document.getElementById('max3').innerHTML = '$' + Math.round(slider3.getInfo().right);
+
+    // -=-=-=-=- SLIDER 4 -=-=-=-=-
+    var slider4 = new Slider(document.getElementById('slider4'), {
+      isOneWay: true,
+      start: 100
+    });
+    slider4.subscribe('moving', function(data) {
+      document.getElementById('min4').innerHTML = '$' + Math.round(data.right);
+    });
+    document.getElementById('min4').innerHTML = '$' + Math.round(slider4.getInfo().right);
+
+    // -=-=-=-=- SLIDER 5 -=-=-=-=-
+    var slider5 = new Slider(document.getElementById('slider5'), {
+      isOneWay: false
+    });
+    slider5.subscribe('moving', function(data) {
+      document.getElementById('min5').innerHTML = '$' + Math.round(data.left);
+      document.getElementById('max5').innerHTML = '$' + Math.round(data.right);
+    });
+    document.getElementById('min5').innerHTML = '$' + Math.round(slider5.getInfo().left);
+    document.getElementById('max5').innerHTML = '$' + Math.round(slider5.getInfo().right);
+  };
+  </script>
+  <body>
+    <h1>Slider Test Bed</h1>
+
+    <h2>Date <small>- no overlap, fly theme, with start/end</small></h2>
+    <strong class="title">Departure Time</strong>
+    <div class="container">
+      <div class="fly-search-filters-time-title">
+        <strong id="min1" class="min"></strong><strong class="to"> - to - </strong><strong id="max1" class="max"></strong>
+      </div>
+      <div id="slider1" class="fly wrap"></div>
+    </div>
+    <code>
+      isDate: true,
+      min: "2015-08-12T03:00",
+      max: "2015-08-12T23:59",
+      start: "2015-08-12T12:22",
+      end: "2015-08-12T16:21",
+      overlap: false</code>
+
+    <h2>Date <small>- with overlap, incorrect starting point</small></h2>
+    <strong class="title">Departure Time</strong>
+    <div class="container">
+      <div class="fly-search-filters-time-title">
+        <strong id="min2" class="min"></strong><strong class="to"> - to - </strong><strong id="max2" class="max"></strong>
+      </div>
+      <div id="slider2" class="wrap"></div>
+    </div>
+    <code>
+      isDate: true,
+      min: "2014-01-01T00:00",
+      max: "2015-08-12T23:59",
+      start: "2014-08-01T00:00",
+      end: "2014-07-31T23:59",
+      overlap: true</code>
+
+    <h2>Value <small>- with overlap, fly theme, start/end</small></h2>
+    <strong class="title">Flight Cost</strong>
+    <div class="container">
+      <div class="fly-search-filters-time-title">
+        <strong id="min3" class="min"></strong><strong class="to"> - to - </strong><strong id="max3" class="max"></strong>
+      </div>
+      <div id="slider3" class="fly wrap"></div>
+    </div>
+    <code>
+      isDate: false,
+      min: 0,
+      max: 365,
+      start: 100,
+      end: 200,
+      overlap: true</code>
+
+    <h2>Value <small>- one way then using all defaults but pushed to 100</small></h2>
+    <strong class="title">Flight Cost</strong>
+    <div class="container">
+      <div class="fly-search-filters-time-title">
+        <strong id="min4" class="min"></strong>
+      </div>
+      <div id="slider4" class="wrap"></div>
+    </div>
+    <code>
+      isOneWay: true,
+      start: 100
+    </code>
+
+    <h2>Value <small>- two way and using all defaults</small></h2>
+    <strong class="title">Flight Cost</strong>
+    <div class="container">
+      <div class="fly-search-filters-time-title">
+        <strong id="min5" class="min"></strong><strong class="to"> - to - </strong><strong id="max5" class="max"></strong>
+      </div>
+      <div id="slider5" class="wrap"></div>
+    </div>
+    <code>
+      isOneWay: false
+    </code>
+    <br /><br />
+  </body>
+</html>
