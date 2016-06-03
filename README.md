@@ -5,9 +5,15 @@ This is a javascript implementation of a two way / one way slider.
 Details:
 - Vanilla JS
 - 12 KB minified
-- 20 KB unminified.
+- 20 KB unminified
 
 Expects an ES5 shimmed environment when it is used (i.e. `bind`, `forEach`)
+
+## Demo
+
+Try it out live by searching for a flight at [Priceline.com](https://www.priceline.com)!
+
+Or you can view the functionality at our demo page at [http://pricelinelabs.github.io/omni-slider/](http://pricelinelabs.github.io/omni-slider/).
 
 ## Features
 
@@ -193,7 +199,6 @@ npm start
 ## Known Issues
 
  - Chrome Device Emulator does not allow us to bind `touchmove` to the `document` (i.e. `document.addEventListener('touchmove', this.movingHandler, true);`). **Workaround: disable emulate touch screen under Emulation at the bottom tabs of dev tools**
- - Provided style sheet is a `.css` file not a `.scss` file so if the build process does not import `.css` it won't get taken. **Workaround: rename the `.css` file into `.scss`**
 
 ## License
 
