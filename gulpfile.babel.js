@@ -9,5 +9,5 @@ gulp.task('default', function(done) {
 });
 
 gulp.task('deploy', function() {
-  runSequence('deploy');
+  runSequence('gh-publish');
 });

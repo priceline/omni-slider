@@ -9,6 +9,7 @@ class StyleEngine {
       .pipe(gulpModules.sass().on('error', gulpModules.sass.logError))
       .pipe(gulpModules.autoprefixer())
       .pipe(gulp.dest('./'))
+      .pipe(gulp.dest('./demo'))
       .pipe(gulpModules.rename(`${componentName}.min.css`))
       .pipe(gulpModules.cssnano())
       .pipe(gulp.dest('./'));
