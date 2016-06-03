@@ -48,6 +48,7 @@ gulp.task('concat-scripts', function() {
     .pipe(iife({ useStrict: false }))
     .pipe(concat(`${componentName}.js`))
     .pipe(gulp.dest('./'))
+    .pipe(gulp.dest('./demo'))
     .pipe(uglify())
     .pipe(rename(`${componentName}.min.js`))
     .pipe(gulp.dest('./'));

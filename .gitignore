@@ -4,6 +4,7 @@
 .idea
 .project
 .settings
+.publish
 
 # Ignore node stuff
 node_modules/
