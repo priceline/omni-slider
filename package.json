@@ -17,6 +17,11 @@
       "es2015"
     ]
   },
+  "eslintConfig": {
+    "env": {
+      "es6": true
+    }
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/pricelinelabs/omni-slider"
