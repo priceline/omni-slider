@@ -48,7 +48,7 @@ To Start:
 <link rel="stylesheet" href="omni-slider.css">
 <script type="text/javascript" src="es5-shim.js"></script>
 <script type="text/javascript" src="omni-slider.js"></script>
-<scipt>
+<script>
     var slider = new Slider(<elementContainer>, <options>);
 </script>
 ```
@@ -76,7 +76,7 @@ To Start:
     - `max` - Upper bounds of the slider (if isDate ? typeof String [yyyy-mm-ddThh:mm] : typeof Number)
     - `start` - Initial starting position of the left hand slider (if isDate ? typeof String [yyyy-mm-ddThh:mm] : typeof Number)
     - `end` - Initial starting position of the right hand slider (if isDate ? typeof String [yyyy-mm-ddThh:mm] : typeof Number)
- 
+
 Example:
 
 ```javascript
@@ -100,28 +100,28 @@ var mySlider = new Slider(element, options);
  - `stop` - triggers when the handle is released
 
 `listener` (type Function)
- - will receive the result of `Slider.prototype.getInfo()` as an agrument
+ - will receive the result of `Slider.prototype.getInfo()` as an argument
  - will be called with the argument (above) once the topic has been fired/published
 
 `returns`
- - an object with accessor method `remove()` which removes the listner from binding to the topic
+ - an object with accessor method `remove()` which removes the listener from binding to the topic
 
 Example:
 
 ```javascript
 var mySlider = new Slider(element, options);
 var harry = mySlider.subscribe('start', function(data) {
-    console.log("harry " + data.left);
+    console.log('harry ' + data.left);
 });
 var potter = mySlider.subscribe('moving', function(data) {
-    console.log("potter " + data.right);
+    console.log('potter ' + data.right);
 });
 var data = mySlider.subscribe('start', function(data) {
     console.log(data);
 });
 potter.remove();
 var hermione = mySlider.subscribe('moving', function(data) {
-    console.log("hermione " + data.right + data.left);
+    console.log('hermione ' + data.right + data.left);
 });
 ```
 
@@ -133,11 +133,11 @@ Returns an object with `left` and `right` properties.
 
 `left`
  - value of the left handle of the slider
- - can be a date object if slider `isDate` === true or a floating point number otherwise
+ - can be a date object if slider `isDate === true` or a floating point number otherwise
 
 `right`
  - value of the right handle of the slider
- - can be a date object if slider `isDate` === true or a floating point number otherwise
+ - can be a date object if slider `isDate === true` or a floating point number otherwise
 
 Example:
 
@@ -159,11 +159,11 @@ Note: on the one way slider, the value is calculated from the left handle rather
 
    `left`
     - value of the left handle of the slider
-    - can be a date object if slider `isDate` === true or a floating point number otherwise
+    - can be a date object if slider `isDate === true` or a floating point number otherwise
 
    `right`
     - value of the right handle of the slider
-    - can be a date object if slider `isDate` === true or a floating point number otherwise
+    - can be a date object if slider `isDate === true` or a floating point number otherwise
 
 `preventPublish`
  - type `boolean`
