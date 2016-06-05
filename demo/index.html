@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <meta charset="utf-8"> 
+    <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, width=320.1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <title>Slider Testbed Demo</title>
     <link rel="stylesheet" href="http://meyerweb.com/eric/tools/css/reset/reset.css">
@@ -70,6 +70,22 @@
         font-size: 16px;
         margin: 6px 20px 0 0;
         display: inline-block;
+      }
+
+      .emphasis {
+        font-style: italic;
+      }
+
+      .usd-slider-specs {
+        margin: 0.5% 3%;
+        font-size: 16px;
+        color: darkorchid;
+        width: 50%;
+      }
+
+      .usd-slider-benefit {
+        font-size: 16px;
+        margin: auto 1%;
       }
 
       @media screen and (max-width: 500px) {
@@ -171,6 +187,18 @@
     });
     document.getElementById('min5').innerHTML = '$' + Math.round(slider5.getInfo().left);
     document.getElementById('max5').innerHTML = '$' + Math.round(slider5.getInfo().right);
+
+    // -=-=-=-=- USD SLIDER -=-=-=-=-
+    var usdSlider = new Slider(document.getElementById('usd-slider'), {
+      isUSDFormat: true
+    });
+
+    usdSlider.subscribe('moving', function(data) {
+      document.getElementById('min-usd').innerHTML = data.left;
+      document.getElementById('max-usd').innerHTML = data.right;
+    });
+    document.getElementById('min-usd').innerHTML = usdSlider.getInfo().left;
+    document.getElementById('max-usd').innerHTML = usdSlider.getInfo().right;
   };
   </script>
   <body>
@@ -247,6 +275,34 @@
     </div>
     <code>
       isOneWay: false
+    </code>
+
+    <h2> 
+      Value
+      <small>
+        - use the <em class="emphasis">isUSDFormat</em> option,
+        to receive a value with the common US Dollar format:
+      </small> 
+    </h2>
+    <div class="usd-slider-specs">&#42;with thousand separator.</div> 
+    <div class="usd-slider-specs">&#42;prefix with "$".</div> 
+    <em class="usd-slider-benefit emphasis">
+      Benefit is to reduce client-side code such as: hard-cording '$',
+      and the function call(s) for rounding,
+      i.e. no need to use '$' string and Math.round(...) calls.
+    </em>
+    <br>
+    <strong class="title">Hotel Cost</strong> 
+    <div class="container">
+      <div class="fly-search-filters-time-title">
+        <strong id="min-usd" class="min"></strong><strong class="to">
+        - to - 
+      </strong><strong id="max-usd" class="max"></strong>
+      </div> 
+      <div id="usd-slider" class="wrap"></div> 
+    </div> 
+    <code>
+      isUSDFormat: true
     </code>
     <br /><br />
   </body>
