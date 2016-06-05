@@ -206,8 +206,8 @@ Slider.prototype.init = function(options) {
 
 /*
  * Convert a numeric value to USD standard format:
- * ~ thousand separator(s).
-  * ~ prefix with "$".
+ *** ~~ thousand separator(s).
+  *** ~~ prefix with "$".
  */
 Slider.prototype._standardizeUSD_ = function(number) {
 
