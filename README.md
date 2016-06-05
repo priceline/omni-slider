@@ -196,6 +196,9 @@ npm install
 npm start
 ```
 
+> The `npm install` step is required before the Demo page can instantiate the Slider JavaScript instances correctly.
+> Run the `npm install` step to install all the project dependencies, before the `npm step` step.
+
 ## Known Issues
 
  - Chrome Device Emulator does not allow us to bind `touchmove` to the `document` (i.e. `document.addEventListener('touchmove', this.movingHandler, true);`). **Workaround: disable emulate touch screen under Emulation at the bottom tabs of dev tools**
