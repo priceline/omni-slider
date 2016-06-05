@@ -21,6 +21,7 @@ function Slider(elementContainer, options) {
   this.options = {
     isOneWay: null,
     isDate: null,
+    isUSDFormat: null,
     overlap: null,
     min: null,
     max: null,
@@ -123,6 +124,7 @@ Slider.prototype.defaultOptions = {
   isOneWay: false,
   isDate: false,
   overlap: false,
+  isUSDFormat: false,
   min: 0,
   max: 100
 };
@@ -200,6 +202,17 @@ Slider.prototype.init = function (options) {
   }
 };
 
+Slider.prototype._standardizeUSD_ = function (number) {
+
+  var numberinString = number.toString();
+  var dollars = numberinString.split('.')[0];
+  var cents = (numberinString.split('.')[1] || '') + '00';
+
+  dollars = dollars.split('').reverse().join('').replace(/(\d{3}(?!$))/g, '$1,').split('').reverse().join('');
+
+  return '$' + dollars + '.' + cents.slice(0, 2);
+};
+
 /* Provide information about the slider value
  * Returns an Object with property left and right denoting left and right values */
 Slider.prototype.getInfo = function () {
@@ -218,6 +231,12 @@ Slider.prototype.getInfo = function () {
       left: this.options.min + left / 100 * total,
       right: this.options.max - right / 100 * total
     };
+  }
+
+  if (typeof this.options.isUSDFormat === 'boolean' && this.options.isUSDFormat) {
+
+    info.left = Slider.prototype._standardizeUSD_(info.left);
+    info.right = Slider.prototype._standardizeUSD_(info.right);
   }
 
   return info;
