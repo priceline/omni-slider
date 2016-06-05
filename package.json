@@ -50,5 +50,8 @@
     "priceline"
   ],
   "author": "Chris Ng",
+  "contributors": [
+    "Beni Cheni <benjaminlchen@gmail.com>"
+  ],
   "license": "MIT"
 }
