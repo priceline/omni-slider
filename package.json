@@ -1,6 +1,6 @@
 {
   "name": "omni-slider",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "A two (or one) way vanilla js slider that runs from ie8 to *",
   "main": "omni-slider.js",
   "scripts": {
