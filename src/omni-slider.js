@@ -15,7 +15,7 @@ function Slider(elementContainer, options) {
   this.options = {
     isOneWay: null,
     isDate: null,
-    isUSDFormat: null,
+    callbackFunction: null,
     overlap: null,
     min: null,
     max: null,
@@ -118,7 +118,7 @@ Slider.prototype.defaultOptions = {
   isOneWay: false,
   isDate: false,
   overlap: false,
-  isUSDFormat: false,
+  callbackFunction: null,
   min: 0,
   max: 100
 };
