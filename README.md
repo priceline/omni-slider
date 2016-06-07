@@ -71,7 +71,7 @@ To Start:
  - Currently supported options:
     - `isOneWay` - Boolean, denotes if slider only has one handle
     - `isDate` - Boolean, denotes if returning a date object
-    - `isUSDFormat` - Boolean, denotes if returns a U.S. Dollar string format with "$", thousand separators and cents in decimals.
+    - `callbackFunction` - Function, denotes if a generic callback function is provided to apply to the value of the Slider.
     - `overlap` - Boolean, denotes if handles will overlap or just sit next to each other 
     - `min` - Lower bounds of the slider (if isDate ? typeof String [yyyy-mm-ddThh:mm] : typeof Number)
     - `max` - Upper bounds of the slider (if isDate ? typeof String [yyyy-mm-ddThh:mm] : typeof Number)
