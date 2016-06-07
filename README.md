@@ -49,15 +49,15 @@ Three ways to try out the Priceline omni-slider:
 <script type="text/javascript" src="es5-shim.js"></script>
 <script type="text/javascript" src="omni-slider.js"></script>
 <script>
-    var element = document.getElementById('harryPotter');
-    var options = {
-        isDate: false,
-        min: 3,
-        max: 1980,
-        start: 7,
-        end: 31,
-        overlap: false
-}
+var element = document.getElementById('harryPotter');
+var options = {
+    isDate: false,
+    min: 3,
+    max: 1980,
+    start: 7,
+    end: 31,
+    overlap: false
+};
 var mySlider = new Slider(element, options);
 </script>
 ```
@@ -135,7 +135,7 @@ var mySlider = new Slider(... , {isOneWay: false});
 var data = {
     left: 7,
     right: 31
-}
+};
 mySlider.move(data);
 
 // One Way
@@ -193,8 +193,8 @@ If it is a one handle slider, then it will return just the value rather than an 
 
 ```javascript
 var disabledSlider = new Slider(document.getElementById('disabledSlider'), {
-      overlap: true
-    });
+    overlap: true
+});
 disabledSlider.disable(true);
 ```
 
