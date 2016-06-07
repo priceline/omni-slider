@@ -204,18 +204,17 @@ Slider.prototype.init = function(options) {
   }
 };
 
-Slider.prototype._standardizeUSD_ = function(number) {
+Slider.prototype._applyCallback_ = function(data, callback) {
 
-  var numberinString = number.toString();
-  var dollars = numberinString.split('.')[0];
-  var cents = (numberinString.split('.')[1] || '') +'00';
+  try {
 
-  dollars =
-    dollars.split('')
-      .reverse().join('') .replace(/(\d{3}(?!$))/g, '$1,') .split('')
-      .reverse().join('');
+    return callback.call(undefined, data);
 
-  return '$' + dollars + '.' + cents.slice(0, 2);
+  } catch (error) {
+
+    throw error;
+
+  }
 
 };
 
@@ -239,11 +238,15 @@ Slider.prototype.getInfo = function() {
     };
   }
 
-  if ( typeof this.options.isUSDFormat === 'boolean'
-    && this.options.isUSDFormat ) {
+  if ( typeof this.options.callbackFunction === 'function' ) {
 
-    info.left = Slider.prototype._standardizeUSD_(info.left);
-    info.right = Slider.prototype._standardizeUSD_(info.right);
+    info.left =
+      Slider.prototype
+        ._applyCallback_(info.left, this.options.callbackFunction);
+
+    info.right =
+      Slider.prototype
+        ._applyCallback_(info.right, this.options.callbackFunction);
 
   }
 

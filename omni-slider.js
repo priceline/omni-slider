@@ -21,6 +21,7 @@ function Slider(elementContainer, options) {
   this.options = {
     isOneWay: null,
     isDate: null,
+    isUSDFormat: null,
     overlap: null,
     min: null,
     max: null,
@@ -123,6 +124,7 @@ Slider.prototype.defaultOptions = {
   isOneWay: false,
   isDate: false,
   overlap: false,
+  isUSDFormat: false,
   min: 0,
   max: 100
 };
@@ -200,6 +202,17 @@ Slider.prototype.init = function (options) {
   }
 };
 
+Slider.prototype._applyCallback_ = function (data, callback) {
+
+  try {
+
+    return callback.call(undefined, data);
+  } catch (error) {
+
+    throw error;
+  }
+};
+
 /* Provide information about the slider value
  * Returns an Object with property left and right denoting left and right values */
 Slider.prototype.getInfo = function () {
@@ -218,6 +231,13 @@ Slider.prototype.getInfo = function () {
       left: this.options.min + left / 100 * total,
       right: this.options.max - right / 100 * total
     };
+  }
+
+  if (typeof this.options.callbackFunction === 'function') {
+
+    info.left = Slider.prototype._applyCallback_(info.left, this.options.callbackFunction);
+
+    info.right = Slider.prototype._applyCallback_(info.right, this.options.callbackFunction);
   }
 
   return info;

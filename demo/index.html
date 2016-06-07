@@ -78,7 +78,7 @@
 
       .usd-slider-specs {
         margin: 0.5% 3%;
-        font-size: 16px;
+        font-size: 14px;
         color: darkorchid;
         width: 50%;
       }
@@ -189,10 +189,23 @@
     document.getElementById('max5').innerHTML = '$' + Math.round(slider5.getInfo().right);
 
     // -=-=-=-=- USD SLIDER -=-=-=-=-
+    var formatUSD = function(number) {
+      var numberinString = number.toString();
+      var dollars = numberinString.split('.')[0];
+      var cents = (numberinString.split('.')[1] || '') +'00';
+
+      dollars =
+        dollars.split('')
+          .reverse().join('') .replace(/(\d{3}(?!$))/g, '$1,') .split('')
+          .reverse().join('');
+
+      return '$' + dollars + '.' + cents.slice(0, 2);
+    };
+
     var usdSlider = new Slider(document.getElementById('usd-slider'), {
       min: 300300.33,
       max: 900900900.99,
-      isUSDFormat: true
+      callbackFunction: formatUSD
     });
 
     usdSlider.subscribe('moving', function(data) {
@@ -282,19 +295,21 @@
     <h2> 
       Value
       <small>
-        - use the <em class="emphasis">isUSDFormat</em> option,
-        to receive a value with the common US Dollar format.
+        - use the <em class="emphasis">callbackFunction</em> option,
+        to receive a generic callback function,
+        and enable the develop to manipulate
+        the numeric or date type of value during the sliding.
       </small> 
     </h2>
     <div class="usd-slider-specs">
-      An example with thousand separators as commas,
-      and cents as decimals would be:
+      An example with a callback funtion
+      to format numeric value to standard USD format:
+      <br>&#42; thousand separators as commas
+      <br>&#42; and cents as decimals
     </div>
-    <div class="usd-slider-specs">$350,200,100.75</div> 
     <em class="usd-slider-benefit emphasis">
-      *Benefit is to reduce client-side code such as: hard-cording '$',
-      and the function call(s) for rounding,
-      i.e. no need to use '$' string and Math.round(...) calls.
+      *Benefit is that the develop would have maximum freedom
+      to manipulate the value of the Slider, by the developer's choice of code.
     </em>
     <br>
     <strong class="title">Total Trip Cost</strong> 
@@ -307,7 +322,7 @@
       <div id="usd-slider" class="wrap"></div> 
     </div> 
     <code>
-      isUSDFormat: true
+      callbackFunction: <code>function(...) {...}</code>
     </code>
     <br /><br />
   </body>
