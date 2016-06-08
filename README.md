@@ -70,20 +70,20 @@ var mySlider = new Slider(element, options);
 > 
 > `<elementContainer>`
 > 
->  - expects a `div` DOM element or node that acts as a wrapper for the slider
->  - all of the slider's DOM elements will be transcluded inside the `<elementContainer>` provided
+> - expects a `div` DOM element or node that acts as a wrapper for the slider
+> - all of the slider's DOM elements will be transcluded inside the `<elementContainer>` provided
 > 
 > `<options>`
 > 
->  - must be of type `object`
->  - defines the following currently supported slider options
->     - `isOneWay` - Boolean, denotes if slider only has one handle
->     - `isDate` - Boolean, denotes if returning a date object
->     - `overlap` - Boolean, denotes if handles will overlap or just sit next to each other
->     - `min` - Lower bounds of the slider (if isDate true typeof String [yyyy-mm-ddThh:mm] else typeof Number)
->     - `max` - Upper bounds of the slider (if isDate true typeof String [yyyy-mm-ddThh:mm] else typeof Number)
->     - `start` - Initial starting position of the left hand slider (if isDate true typeof String [yyyy-mm-ddThh:mm] else typeof Number)
->     - `end` - Initial starting position of the right hand slider (if isDate true typeof String [yyyy-mm-ddThh:mm] else typeof Number)
+> - must be of type `object`
+> - defines the following currently supported slider options
+>   - `isOneWay` - Boolean, denotes if slider only has one handle
+>   - `isDate` - Boolean, denotes if returning a date object
+>   - `overlap` - Boolean, denotes if handles will overlap or just sit next to each other
+>   - `min` - Lower bounds of the slider (if isDate true typeof String [yyyy-mm-ddThh:mm] else typeof Number)
+>   - `max` - Upper bounds of the slider (if isDate true typeof String [yyyy-mm-ddThh:mm] else typeof Number)
+>   - `start` - Initial starting position of the left hand slider (if isDate true typeof String [yyyy-mm-ddThh:mm] else typeof Number)
+>   - `end` - Initial starting position of the right hand slider (if isDate true typeof String [yyyy-mm-ddThh:mm] else typeof Number)
 > 
 > `<elementContainer>` - is the `div` container element
 > 
@@ -112,18 +112,18 @@ var hermione = mySlider.subscribe('moving', function(data) {
 > 
 > `topic` (type String)
 > 
->  - `start` - triggers when the handle is selected
->  - `moving` - triggers when the handle is being moved
->  - `stop` - triggers when the handle is released
+> - `start` - triggers when the handle is selected
+> - `moving` - triggers when the handle is being moved
+> - `stop` - triggers when the handle is released
 > 
 > `listener` (type Function)
 > 
->  - will receive the result of `Slider.prototype.getInfo()` as an argument
->  - will be called with the argument (above) once the topic has been fired/published
+> - will receive the result of `Slider.prototype.getInfo()` as an argument
+> - will be called with the argument (above) once the topic has been fired/published
 > 
 > `returns`
 > 
->  - an object with accessor method `remove()` which removes the listener from binding to the topic
+> - an object with accessor method `remove()` which removes the listener from binding to the topic
 
 ### Preset a slider value
 
@@ -143,25 +143,25 @@ var myOneWaySlider = new Slider(... , {isDate: true, isOneWay: true});
 myOneWaySlider.move(new Date('1980-07-31'));
 ```
 
->  #### Slider.prototype.move(data, preventPublish)
->  
->  `data`
->       - type `object` for two way sliders or `number` for one way sliders
->       - if it is an object it should be constructed:
->  
->  `left`
->       - value of the left handle of the slider
->       - can be a date object if slider `isDate === true` or a floating point number otherwise
->  
->  `right`
->       - value of the right handle of the slider
->       - can be a date object if slider `isDate === true` or a floating point number otherwise
->  
->  `preventPublish`
->       - type `boolean`
->       - if true then it won't publish the `moving` topic otherwise it will
->  
->  Reverse of `Slider.prototype.getInfo()` in terms of data provided. If you are setting a two way slider then you pass in an object otherwise if it is a one way slider you only pass in a value.
+> #### Slider.prototype.move(data, preventPublish)
+> 
+> `data`
+> - type `object` for two way sliders or `number` for one way sliders
+> - if it is an object it should be constructed:
+> 
+> `left`
+> - value of the left handle of the slider
+> - can be a date object if slider `isDate === true` or a floating point number otherwise
+> 
+> `right`
+> - value of the right handle of the slider
+> - can be a date object if slider `isDate === true` or a floating point number otherwise
+> 
+> `preventPublish`
+> - type `boolean`
+> - if true then it won't publish the `moving` topic otherwise it will
+> 
+> Reverse of `Slider.prototype.getInfo()` in terms of data provided. If you are setting a two way slider then you pass in an object otherwise if it is a one way slider you only pass in a value.
 
 ### Extract slider values
 
@@ -176,18 +176,17 @@ console.log(data.right); // right handle value
 
 If it is a one handle slider, then it will return just the value rather than an object. In this case, the value is calculated from the left handle rather than the fill.
 
->  #### Slider.prototype.getInfo()
->  
->  Essentially the data for the slider is *always* available since the `slider-fill` is made up of percentages. `slider.getInfo()` merely extracts the said percentages and generates a human-readable value based on the context of the application (either date or currency). `Slider.getInfo()` returns an object with `left` and `right` properties.
->  
->  `left`
->   - value of the left handle of the slider
->   - can be a date object if slider `isDate === true` or a floating point number otherwise
->  
->  
->  `right`
->   - value of the right handle of the slider
->   - can be a date object if slider `isDate === true` or a floating point number otherwise
+> #### Slider.prototype.getInfo()
+> 
+> Essentially the data for the slider is *always* available since the `slider-fill` is made up of percentages. `slider.getInfo()` merely extracts the said percentages and generates a human-readable value based on the context of the application (either date or currency). `Slider.getInfo()` returns an object with `left` and `right` properties.
+> 
+> `left`
+> - value of the left handle of the slider
+> - can be a date object if slider `isDate === true` or a floating point number otherwise
+> 
+> `right`
+> - value of the right handle of the slider
+> - can be a date object if slider `isDate === true` or a floating point number otherwise
 
 ### Disable the slider
 
