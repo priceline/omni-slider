@@ -1,9 +1,9 @@
 {
   "name": "omni-slider",
   "main": "omni-slider.js",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "authors": [
-    "Chris Ng"
+    "Chris Ng <chrisrcng@gmail.com>"
   ],
   "description": "A two (or one) way vanilla js slider that runs from ie8 to *",
   "keywords": [
