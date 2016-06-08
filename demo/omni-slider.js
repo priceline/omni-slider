@@ -58,7 +58,7 @@ var Slider = function () {
     // Contains the DOM elements for the slider
     this.UI = {
       slider: null,
-      hanldeLeft: null,
+      handleLeft: null,
       handleRight: null,
       fill: null
     };
