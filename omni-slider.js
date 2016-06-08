@@ -27,6 +27,7 @@ var Slider = function () {
       isOneWay: null,
       isDate: null,
       overlap: null,
+      callbackFunction: null,
       min: null,
       max: null,
       start: null,
@@ -229,7 +230,26 @@ var Slider = function () {
         };
       }
 
+      if (typeof this.options.callbackFunction === 'function') {
+        info.left = this._applyCallback_(info.left, this.options.callbackFunction);
+        info.right = this._applyCallback_(info.right, this.options.callbackFunction);
+      }
+
       return info;
+    }
+
+    /* 
+     * Apply call back using data provided
+     **/
+
+  }, {
+    key: '_applyCallback_',
+    value: function _applyCallback_(data, callback) {
+      try {
+        return callback.call(undefined, data);
+      } catch (error) {
+        throw error;
+      }
     }
 
     /* When handle is pressed
@@ -562,6 +582,7 @@ var Slider = function () {
         isOneWay: false,
         isDate: false,
         overlap: false,
+        callbackFunction: null,
         min: 0,
         max: 100
       };

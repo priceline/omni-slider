@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <meta charset="utf-8"> 
+    <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, width=320.1, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <title>Slider Testbed Demo</title>
     <link rel="stylesheet" href="http://meyerweb.com/eric/tools/css/reset/reset.css">
@@ -70,6 +70,21 @@
         font-size: 16px;
         margin: 6px 20px 0 0;
         display: inline-block;
+      }
+
+      .emphasis {
+        font-style: italic;
+      }
+
+      .usd-slider-specs {
+        margin: 0.5% 3%;
+        font-size: 14px;
+        width: 50%;
+      }
+
+      .usd-slider-benefit {
+        font-size: 16px;
+        margin: auto 1%;
       }
 
       @media screen and (max-width: 500px) {
@@ -171,6 +186,33 @@
     });
     document.getElementById('min5').innerHTML = '$' + Math.round(slider5.getInfo().left);
     document.getElementById('max5').innerHTML = '$' + Math.round(slider5.getInfo().right);
+
+    // -=-=-=-=- USD SLIDER -=-=-=-=-
+    var formatUSD = function(number) {
+      var numberinString = number.toString();
+      var dollars = numberinString.split('.')[0];
+      var cents = (numberinString.split('.')[1] || '') +'00';
+
+      dollars =
+        dollars.split('')
+          .reverse().join('') .replace(/(\d{3}(?!$))/g, '$1,') .split('')
+          .reverse().join('');
+
+      return '$' + dollars + '.' + cents.slice(0, 2);
+    };
+
+    var usdSlider = new Slider(document.getElementById('usd-slider'), {
+      min: 1017.91,
+      max: 86753.09,
+      callbackFunction: formatUSD
+    });
+
+    usdSlider.subscribe('moving', function(data) {
+      document.getElementById('min-usd').innerHTML = data.left;
+      document.getElementById('max-usd').innerHTML = data.right;
+    });
+    document.getElementById('min-usd').innerHTML = usdSlider.getInfo().left;
+    document.getElementById('max-usd').innerHTML = usdSlider.getInfo().right;
   };
   </script>
   <body>
@@ -247,6 +289,39 @@
     </div>
     <code>
       isOneWay: false
+    </code>
+
+    <h2> 
+      Value
+      <small>
+        - use the <em class="emphasis">callbackFunction</em> option,
+        to receive a generic callback function,
+        and enable the develop to manipulate
+        the numeric or date type of value during the sliding.
+      </small> 
+    </h2>
+    <div class="usd-slider-specs">
+      An example with a callback funtion
+      to format numeric value to standard USD format:
+      <br>&#42; thousand separators as commas
+      <br>&#42; and cents as decimals
+    </div>
+    <em class="usd-slider-benefit emphasis">
+      *Benefit is that the develop would have maximum freedom
+      to manipulate the value of the Slider, by the developer's choice of code.
+    </em>
+    <br>
+    <strong class="title">Total Trip Cost</strong> 
+    <div class="container">
+      <div class="fly-search-filters-time-title">
+        <strong id="min-usd" class="min"></strong><strong class="to">
+        - to - 
+      </strong><strong id="max-usd" class="max"></strong>
+      </div> 
+      <div id="usd-slider" class="wrap"></div> 
+    </div> 
+    <code>
+      callbackFunction: <code>function(...) {...}</code>
     </code>
     <br /><br />
   </body>
