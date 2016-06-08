@@ -48,7 +48,6 @@ Three ways to try out the Priceline omni-slider:
 <link rel="stylesheet" href="omni-slider.css">
 <script type="text/javascript" src="es5-shim.js"></script>
 <script type="text/javascript" src="omni-slider.js"></script>
-<script>
 var element = document.getElementById('harryPotter');
 var options = {
     isDate: false,
@@ -80,6 +79,7 @@ var mySlider = new Slider(element, options);
 >   - `isOneWay` - Boolean, denotes if slider only has one handle
 >   - `isDate` - Boolean, denotes if returning a date object
 >   - `overlap` - Boolean, denotes if handles will overlap or just sit next to each other
+>   - `callbackFunction` - Function, denotes if a generic callback function is provided to apply to the value of the Slider
 >   - `min` - Lower bounds of the slider (if isDate true typeof String [yyyy-mm-ddThh:mm] else typeof Number)
 >   - `max` - Upper bounds of the slider (if isDate true typeof String [yyyy-mm-ddThh:mm] else typeof Number)
 >   - `start` - Initial starting position of the left hand slider (if isDate true typeof String [yyyy-mm-ddThh:mm] else typeof Number)
