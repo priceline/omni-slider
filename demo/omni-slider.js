@@ -19,9 +19,6 @@ var Slider = function () {
     // Validation of element, the only required argument
     if (!elementContainer || elementContainer.nodeName !== 'DIV' && elementContainer.tagName !== 'DIV') return;
 
-    // Contains IE8 information for the slider
-    this.isIE8 = false;
-
     // Contains the options for this slider
     this.options = {
       isOneWay: null,
@@ -162,9 +159,6 @@ var Slider = function () {
         this.options = this.defaultOptions;
       }
 
-      // Check browser
-      this.isIE8 = /MSIE/.test(navigator.userAgent);
-
       // Default start/end
       this.options.start = this.options.start || this.options.min;
       this.options.end = this.options.end || this.options.max;
@@ -269,36 +263,19 @@ var Slider = function () {
 
       // Get handle element node not the child nodes
       // If this is a child of the parent try to find the handle element
-      if (this.isIE8) {
-        this.dragObj.elNode = window.event.srcElement;
+      this.dragObj.elNode = event.target;
 
-        while (this.dragObj.elNode.getAttribute('class').indexOf('handle') < 0) {
-          this.dragObj.elNode = this.dragObj.elNode.parentNode;
-        }
-      } else {
-        this.dragObj.elNode = event.target;
-
-        while (!this.dragObj.elNode.classList.contains('handle')) {
-          this.dragObj.elNode = this.dragObj.elNode.parentNode;
-        }
+      while (!this.dragObj.elNode.classList.contains('handle')) {
+        this.dragObj.elNode = this.dragObj.elNode.parentNode;
       }
 
       // Direction where the slider control is going
-      if (this.isIE8) {
-        this.dragObj.dir = this.dragObj.elNode.getAttribute('class').indexOf('handle-left') >= 0 ? 'left' : 'right';
-      } else {
-        this.dragObj.dir = this.dragObj.elNode.classList.contains('handle-left') ? 'left' : 'right';
-      }
+      this.dragObj.dir = this.dragObj.elNode.classList.contains('handle-left') ? 'left' : 'right';
 
       // Get cursor position wrt the page
-      if (this.isIE8) {
-        x = window.event.clientX + document.documentElement.scrollLeft + document.body.scrollLeft;
-        y = window.event.clientY + document.documentElement.scrollTop + document.body.scrollTop;
-      } else {
-        // If touch screen (event.touches) and if IE11 (pageXOffset)
-        x = (typeof event.clientX !== 'undefined' ? event.clientX : event.touches[0].pageX) + (window.scrollX || window.pageXOffset);
-        y = (typeof event.clientY !== 'undefined' ? event.clientY : event.touches[0].pageY) + (window.scrollY || window.pageYOffset);
-      }
+      // If touch screen (event.touches) and if IE11 (pageXOffset)
+      x = (typeof event.clientX !== 'undefined' ? event.clientX : event.touches[0].pageX) + (window.scrollX || window.pageXOffset);
+      y = (typeof event.clientY !== 'undefined' ? event.clientY : event.touches[0].pageY) + (window.scrollY || window.pageYOffset);
 
       // Save starting positions of cursor and element
       this.dragObj.cursorStartX = x;
@@ -310,42 +287,23 @@ var Slider = function () {
 
       // Update element's positioning for z-index
       // The element last moved will have a higher positioning
-      if (this.isIE8) {
-        this.UI.handleLeft.setAttribute('class', this.UI.handleLeft.getAttribute('class').replace('ontop', '').replace(/^\s+|\s+$/g, ''));
-        this.UI.handleRight.setAttribute('class', this.UI.handleRight.getAttribute('class').replace('ontop', '').replace(/^\s+|\s+$/g, ''));
-
-        this.dragObj.elNode.setAttribute('class', this.dragObj.elNode.getAttribute('class') + ' ontop');
-      } else {
-        this.UI.handleLeft.classList.remove('ontop');
-        this.UI.handleRight.classList.remove('ontop');
-
-        this.dragObj.elNode.classList.add('ontop');
-      }
+      this.UI.handleLeft.classList.remove('ontop');
+      this.UI.handleRight.classList.remove('ontop');
+      this.dragObj.elNode.classList.add('ontop');
 
       // Capture mousemove and mouseup events on the page
       this.movingHandler = this.moving.bind(this);
       this.stopHandler = this.stop.bind(this);
-      if (this.isIE8) {
-        document.attachEvent('onmousemove', this.movingHandler);
-        document.attachEvent('onmouseup', this.stopHandler);
-      } else {
-        document.addEventListener('mousemove', this.movingHandler, true);
-        document.addEventListener('mouseup', this.stopHandler, true);
-        document.addEventListener('touchmove', this.movingHandler, true);
-        document.addEventListener('touchend', this.stopHandler, true);
-      }
+      document.addEventListener('mousemove', this.movingHandler, true);
+      document.addEventListener('mouseup', this.stopHandler, true);
+      document.addEventListener('touchmove', this.movingHandler, true);
+      document.addEventListener('touchend', this.stopHandler, true);
 
       // Stop default events
       this.stopDefault.bind(this)(event);
-      if (this.isIE8) {
-        this.UI.fill.setAttribute('class', this.UI.fill.getAttribute('class').replace('slider-transition', '').replace(/^\s+|\s+$/g, ''));
-        this.UI.handleLeft.setAttribute('class', this.UI.handleLeft.getAttribute('class').replace('slider-transition', '').replace(/^\s+|\s+$/g, ''));
-        this.UI.handleRight.setAttribute('class', this.UI.handleRight.getAttribute('class').replace('slider-transition', '').replace(/^\s+|\s+$/g, ''));
-      } else {
-        this.UI.fill.classList.remove('slider-transition');
-        this.UI.handleLeft.classList.remove('slider-transition');
-        this.UI.handleRight.classList.remove('slider-transition');
-      }
+      this.UI.fill.classList.remove('slider-transition');
+      this.UI.handleLeft.classList.remove('slider-transition');
+      this.UI.handleRight.classList.remove('slider-transition');
 
       // Pub/sub lifecycle - start
       this.publish('start', this.getInfo());
@@ -357,15 +315,8 @@ var Slider = function () {
     key: 'moving',
     value: function moving(event) {
       // Get cursor position with respect to the page
-      var x = 0;
-      var y = 0;
-      if (this.isIE8) {
-        x = window.event.clientX + document.documentElement.scrollLeft + document.body.scrollLeft;
-        y = window.event.clientY + document.documentElement.scrollTop + document.body.scrollTop;
-      } else {
-        x = (typeof event.clientX !== 'undefined' ? event.clientX : event.touches[0].pageX) + (window.scrollX || window.pageXOffset);
-        y = (typeof event.clientY !== 'undefined' ? event.clientY : event.touches[0].pageY) + (window.scrollY || window.pageYOffset);
-      }
+      var x = (typeof event.clientX !== 'undefined' ? event.clientX : event.touches[0].pageX) + (window.scrollX || window.pageXOffset);
+      var y = (typeof event.clientY !== 'undefined' ? event.clientY : event.touches[0].pageY) + (window.scrollY || window.pageYOffset);
 
       // Move drag element by the same amount the cursor has moved
       var sliderWidth = this.UI.slider.offsetWidth;
@@ -426,15 +377,10 @@ var Slider = function () {
     key: 'stop',
     value: function stop(event) {
       // Stop capturing mousemove and mouseup events
-      if (this.isIE8) {
-        document.detachEvent('onmousemove', this.movingHandler);
-        document.detachEvent('onmouseup', this.stopHandler);
-      } else {
-        document.removeEventListener('mousemove', this.movingHandler, true);
-        document.removeEventListener('mouseup', this.stopHandler, true);
-        document.removeEventListener('touchmove', this.movingHandler, true);
-        document.removeEventListener('touchend', this.stopHandler, true);
-      }
+      document.removeEventListener('mousemove', this.movingHandler, true);
+      document.removeEventListener('mouseup', this.stopHandler, true);
+      document.removeEventListener('touchmove', this.movingHandler, true);
+      document.removeEventListener('touchend', this.stopHandler, true);
 
       // Stop default events
       this.stopDefault.bind(this)(event);
@@ -450,13 +396,9 @@ var Slider = function () {
     value: function move(data, preventPublish) {
 
       // Transition effects (cleaned up at Slider.prototype.starting);
-      if (this.isIE8) {
-        this.UI.fill.setAttribute('class', this.UI.fill.getAttribute('class') + ' slider-transition');
-      } else {
-        this.UI.fill.classList.add('slider-transition');
-        this.UI.handleLeft.classList.add('slider-transition');
-        this.UI.handleRight.classList.add('slider-transition');
-      }
+      this.UI.fill.classList.add('slider-transition');
+      this.UI.handleLeft.classList.add('slider-transition');
+      this.UI.handleRight.classList.add('slider-transition');
 
       var total = this.options.max - this.options.min;
 
@@ -507,12 +449,7 @@ var Slider = function () {
   }, {
     key: 'stopDefault',
     value: function stopDefault(event) {
-      if (this.isIE8) {
-        window.event.cancelBubble = true;
-        window.event.returnValue = false;
-      } else {
-        event.preventDefault();
-      }
+      event.preventDefault();
     }
 
     /* Accessor for disable property */
@@ -522,17 +459,9 @@ var Slider = function () {
     value: function disable(boolean) {
       this.isDisabled = boolean;
       if (this.isDisabled) {
-        if (this.isIE8) {
-          this.UI.slider.setAttribute('class', this.UI.slider.getAttribute('class') + ' slider-disabled');
-        } else {
-          this.UI.slider.classList.add('slider-disabled');
-        }
+        this.UI.slider.classList.add('slider-disabled');
       } else {
-        if (this.isIE8) {
-          this.UI.slider.setAttribute('class', this.UI.slider.getAttribute('class').replace('slider-disabled', '').replace(/^\s+|\s+$/g, ''));
-        } else {
-          this.UI.slider.classList.remove('slider-disabled');
-        }
+        this.UI.slider.classList.remove('slider-disabled');
       }
     }
 
