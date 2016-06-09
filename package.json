@@ -1,7 +1,7 @@
 {
   "name": "omni-slider",
-  "version": "1.1.0",
-  "description": "A two (or one) way vanilla js slider that runs from ie8 to *",
+  "version": "1.2.0",
+  "description": "A multirange vanilla js slider",
   "main": "omni-slider.js",
   "scripts": {
     "start": "gulp",

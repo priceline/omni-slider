@@ -3,9 +3,8 @@
 This is a JavaScript implementation of a slider to select a numeric value or a range. The slider is horizontal and can be implemented with one handle or two. Following are some technical details for the omni-slider:
 
 - Vanilla JS
-- Expects an ES5 shimmed environment where applicable (i.e. `bind`, `forEach`)
-- 12 KB minified
-- 20 KB unminified
+- 9.34 KB minified
+- 18.86 KB unminified
 
 ## Demo
 
@@ -31,7 +30,6 @@ Three ways to try out the Priceline omni-slider:
 
 ## Supported Browsers
 
- - IE8
  - IE9
  - IE11
  - Chrome
