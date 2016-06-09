@@ -17,11 +17,11 @@ class Slider {
       min: null,
       max: null,
       start: null,
-      end: null
+      end: null,
     };
 
     // Custom Logic for 1 way
-    var oneWay = false;
+    let oneWay = false;
     if (options.isOneWay) {
       options.isOneWay = false;
       options.overlap = true;
@@ -39,7 +39,7 @@ class Slider {
     this.topics = {
       start: [],
       moving: [],
-      stop: []
+      stop: [],
     };
 
     // Contains the DOM elements for the slider
@@ -47,11 +47,11 @@ class Slider {
       slider: null,
       handleLeft: null,
       handleRight: null,
-      fill: null
+      fill: null,
     };
 
     // Slider element
-    var sliderElem = document.createElement('div');
+    const sliderElem = document.createElement('div');
     if (oneWay) {
       sliderElem.className = 'slider one-way';
     } else {
@@ -60,25 +60,25 @@ class Slider {
     this.UI.slider = sliderElem;
 
     // Left handle
-    var handleLeft = document.createElement('div');
+    const handleLeft = document.createElement('div');
     handleLeft.className = 'handle handle-left';
-    var circleLeft = document.createElement('div');
+    const circleLeft = document.createElement('div');
     circleLeft.className = 'slider-circle';
     handleLeft.appendChild(circleLeft);
     this.UI.handleLeft = handleLeft;
     this.UI.slider.appendChild(this.UI.handleLeft);
 
     // Right handle
-    var handleRight = document.createElement('div');
+    const handleRight = document.createElement('div');
     handleRight.className = 'handle handle-right';
-    var circleRight = document.createElement('div');
+    const circleRight = document.createElement('div');
     circleRight.className = 'slider-circle';
     handleRight.appendChild(circleRight);
     this.UI.handleRight = handleRight;
     this.UI.slider.appendChild(this.UI.handleRight);
 
     // Fill element
-    var fill = document.createElement('div');
+    const fill = document.createElement('div');
     fill.className = 'slider-fill';
     this.UI.fill = fill;
     this.UI.slider.appendChild(this.UI.fill);
@@ -90,9 +90,9 @@ class Slider {
     this.UI.handleRight.style.marginRight = '-' + (handleRight.offsetWidth / 2) + 'px';
 
     // Push elements to starting positions
-    var data = {
+    const data = {
       left: this.options.start,
-      right: this.options.end
+      right: this.options.end,
     };
     this.move.bind(this)(data, true);
 
@@ -118,14 +118,14 @@ class Slider {
       overlap: false,
       callbackFunction: null,
       min: 0,
-      max: 100
+      max: 100,
     };
   }
 
   /* Helper method (replace with shared function from library) */
   extend(defaults, options) {
-    var extended = {};
-    var prop;
+    const extended = {};
+    let prop;
     for (prop in defaults) {
       if (Object.prototype.hasOwnProperty.call(defaults, prop)) {
         extended[prop] = defaults[prop];
@@ -203,20 +203,20 @@ class Slider {
   /* Provide information about the slider value
    * Returns an Object with property left and right denoting left and right values */
   getInfo() {
-    var info = {};
-    var total = this.options.max - this.options.min;
-    var left = this.UI.fill.style.left ? parseFloat(this.UI.fill.style.left.replace('%', '')) : 0;
-    var right = this.UI.fill.style.right ? parseFloat(this.UI.fill.style.right.replace('%', '')) : 0;
+    let info = {};
+    const total = this.options.max - this.options.min;
+    const left = this.UI.fill.style.left ? parseFloat(this.UI.fill.style.left.replace('%', '')) : 0;
+    const right = this.UI.fill.style.right ? parseFloat(this.UI.fill.style.right.replace('%', '')) : 0;
 
     if (this.options.isDate) {
       info = {
         left: new Date(this.options.min + (left / 100) * total),
-        right: new Date(this.options.max - (right / 100) * total)
+        right: new Date(this.options.max - (right / 100) * total),
       };
     } else {
       info = {
         left: this.options.min + (left / 100) * total,
-        right: this.options.max - (right / 100) * total
+        right: this.options.max - (right / 100) * total,
       };
     }
 
@@ -228,7 +228,7 @@ class Slider {
     return info;
   }
 
-  /* 
+  /*
    * Apply call back using data provided
    **/
   _applyCallback_(data, callback) {
@@ -245,8 +245,8 @@ class Slider {
     // Exit if disabled
     if (this.isDisabled) return;
 
-    var x = 0;
-    var y = 0;
+    let x = 0;
+    let y = 0;
 
     // Initialize drag object
     this.dragObj = {};
@@ -264,8 +264,10 @@ class Slider {
 
     // Get cursor position wrt the page
     // If touch screen (event.touches) and if IE11 (pageXOffset)
-    x = (typeof event.clientX !== 'undefined' ? event.clientX : event.touches[0].pageX) + (window.scrollX || window.pageXOffset);
-    y = (typeof event.clientY !== 'undefined' ? event.clientY : event.touches[0].pageY) + (window.scrollY || window.pageYOffset);
+    x = (typeof event.clientX !== 'undefined' ? event.clientX :
+      event.touches[0].pageX) + (window.scrollX || window.pageXOffset);
+    y = (typeof event.clientY !== 'undefined' ? event.clientY :
+      event.touches[0].pageY) + (window.scrollY || window.pageYOffset);
 
     // Save starting positions of cursor and element
     this.dragObj.cursorStartX = x;
@@ -302,13 +304,13 @@ class Slider {
   /* When handle is being moved */
   moving(event) {
     // Get cursor position with respect to the page
-    var x = (typeof event.clientX !== 'undefined' ? event.clientX : event.touches[0].pageX) + (window.scrollX || window.pageXOffset);
-    var y = (typeof event.clientY !== 'undefined' ? event.clientY : event.touches[0].pageY) + (window.scrollY || window.pageYOffset);
+    const x = (typeof event.clientX !== 'undefined' ? event.clientX :
+      event.touches[0].pageX) + (window.scrollX || window.pageXOffset);
 
 
     // Move drag element by the same amount the cursor has moved
-    var sliderWidth = this.UI.slider.offsetWidth;
-    var calculatedVal = 0;
+    const sliderWidth = this.UI.slider.offsetWidth;
+    let calculatedVal = 0;
     if (this.dragObj.dir === 'left') {
       calculatedVal = this.dragObj.elStartLeft + ((x - this.dragObj.cursorStartX) / sliderWidth * 100);
     } else if (this.dragObj.dir === 'right') {
@@ -327,13 +329,13 @@ class Slider {
     calculatedVal = Math.abs(calculatedVal);
 
     // Take into account the handle when calculating space left
-    var handleOffset = 0;
+    let handleOffset = 0;
     if (!this.options.overlap) {
       handleOffset = (this.UI.handleRight.offsetWidth / this.UI.slider.offsetWidth) * 100;
     }
 
     // Add movement based on handle direction
-    var remaining = 0;
+    let remaining = 0;
     if (this.dragObj.dir === 'left') {
       remaining = (100 - handleOffset) - this.UI.fill.style.right.replace('%', '');
       if (remaining <= calculatedVal) {
@@ -376,45 +378,47 @@ class Slider {
 
   /* Push elements to position based on data */
   move(data, preventPublish) {
+    let importedData = data;
 
     // Transition effects (cleaned up at Slider.prototype.starting);
     this.UI.fill.classList.add('slider-transition');
     this.UI.handleLeft.classList.add('slider-transition');
     this.UI.handleRight.classList.add('slider-transition');
 
-    var total = this.options.max - this.options.min;
+    const total = this.options.max - this.options.min;
 
-    if (typeof data === 'object') {
-      if (data.left) {
-        if (data.left < this.options.min) data.left = this.options.min;
-        if (data.left > this.options.max) data.left = this.options.max;
+    if (typeof importedData === 'object') {
+      if (importedData.left) {
+        if (importedData.left < this.options.min) importedData.left = this.options.min;
+        if (importedData.left > this.options.max) importedData.left = this.options.max;
 
-        var posLeft = (data.left - this.options.min) / total * 100;
+        const posLeft = (importedData.left - this.options.min) / total * 100;
         this.UI.handleLeft.style.left = posLeft + '%';
         this.UI.fill.style.left = posLeft + '%';
       }
 
-      if (data.right) {
-        if (data.right < this.options.min) data.right = this.options.min;
-        if (data.right > this.options.max) data.right = this.options.max;
+      if (importedData.right) {
+        if (importedData.right < this.options.min) importedData.right = this.options.min;
+        if (importedData.right > this.options.max) importedData.right = this.options.max;
 
-        var posRight = (this.options.max - data.right) / total * 100;
+        const posRight = (this.options.max - importedData.right) / total * 100;
         this.UI.handleRight.style.right = posRight + '%';
         this.UI.fill.style.right = posRight + '%';
       }
 
       // If overlap is not enabled then check if the starting positions are overlapping - reset to full
-      if (!this.options.overlap && this.UI.handleLeft.offsetLeft + this.UI.handleLeft.offsetWidth > this.UI.handleRight.offsetLeft - 1) {
+      if (!this.options.overlap && this.UI.handleLeft.offsetLeft + this.UI.handleLeft.offsetWidth >
+        this.UI.handleRight.offsetLeft - 1) {
         this.UI.fill.style.left = '0%';
         this.UI.fill.style.right = '0%';
         this.UI.handleLeft.style.left = '0%';
         this.UI.handleRight.style.right = '0%';
       }
-    } else if (!isNaN(data)) {
-      if (data < this.options.min) data = this.options.min;
-      if (data > this.options.max) data = this.options.max;
+    } else if (!isNaN(importedData)) {
+      if (importedData < this.options.min) importedData = this.options.min;
+      if (importedData > this.options.max) importedData = this.options.max;
 
-      var pos = (data - this.options.min) / total * 100;
+      const pos = (importedData - this.options.min) / total * 100;
       this.UI.handleLeft.style.left = pos + '%';
       this.UI.fill.style.left = '0%';
       this.UI.fill.style.right = (100 - pos) + '%';
@@ -447,17 +451,19 @@ class Slider {
    */
   subscribe(topic, listener) {
     // Check validity of topic and listener
-    if (!this.topics.hasOwnProperty.call(this.topics, topic) || typeof topic !== 'string' || typeof listener !== 'function') return;
+    if (!this.topics.hasOwnProperty.call(this.topics, topic) ||
+      typeof topic !== 'string' ||
+       typeof listener !== 'function') return false;
 
     // Add the listener to queue
     // Retrieve the index for deletion
-    var index = this.topics[topic].push(listener) - 1;
+    const index = this.topics[topic].push(listener) - 1;
 
     // Return instance of the subscription for deletion
     return {
       remove: (function() {
         delete this.topics[topic][index];
-      }).bind(this)
+      }).bind(this),
     };
   }
 
