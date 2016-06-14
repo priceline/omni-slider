@@ -137,7 +137,7 @@ var Slider = function () {
       var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
       var extended = {};
-      var prop;
+      var prop = void 0;
       for (prop in defaults) {
         if (Object.prototype.hasOwnProperty.call(defaults, prop)) {
           extended[prop] = defaults[prop];
@@ -242,7 +242,7 @@ var Slider = function () {
       return info;
     }
 
-    /* 
+    /*
      * Apply call back using data provided
      **/
 
@@ -339,7 +339,6 @@ var Slider = function () {
     value: function moving(event) {
       // Get cursor position with respect to the page
       var x = (typeof event.clientX !== 'undefined' ? event.clientX : event.touches[0].pageX) + (window.scrollX || window.pageXOffset);
-      var y = (typeof event.clientY !== 'undefined' ? event.clientY : event.touches[0].pageY) + (window.scrollY || window.pageYOffset);
 
       // Move drag element by the same amount the cursor has moved
       var sliderWidth = this.UI.slider.offsetWidth;
@@ -417,6 +416,7 @@ var Slider = function () {
   }, {
     key: 'move',
     value: function move(data, preventPublish) {
+      var importedData = data;
 
       // Transition effects (cleaned up at Slider.prototype.starting);
       this.UI.fill.classList.add('slider-transition');
@@ -425,21 +425,21 @@ var Slider = function () {
 
       var total = this.options.max - this.options.min;
 
-      if ((typeof data === 'undefined' ? 'undefined' : _typeof(data)) === 'object') {
-        if (data.left) {
-          if (data.left < this.options.min) data.left = this.options.min;
-          if (data.left > this.options.max) data.left = this.options.max;
+      if ((typeof importedData === 'undefined' ? 'undefined' : _typeof(importedData)) === 'object') {
+        if (importedData.left) {
+          if (importedData.left < this.options.min) importedData.left = this.options.min;
+          if (importedData.left > this.options.max) importedData.left = this.options.max;
 
-          var posLeft = (data.left - this.options.min) / total * 100;
+          var posLeft = (importedData.left - this.options.min) / total * 100;
           this.UI.handleLeft.style.left = posLeft + '%';
           this.UI.fill.style.left = posLeft + '%';
         }
 
-        if (data.right) {
-          if (data.right < this.options.min) data.right = this.options.min;
-          if (data.right > this.options.max) data.right = this.options.max;
+        if (importedData.right) {
+          if (importedData.right < this.options.min) importedData.right = this.options.min;
+          if (importedData.right > this.options.max) importedData.right = this.options.max;
 
-          var posRight = (this.options.max - data.right) / total * 100;
+          var posRight = (this.options.max - importedData.right) / total * 100;
           this.UI.handleRight.style.right = posRight + '%';
           this.UI.fill.style.right = posRight + '%';
         }
@@ -451,11 +451,11 @@ var Slider = function () {
           this.UI.handleLeft.style.left = '0%';
           this.UI.handleRight.style.right = '0%';
         }
-      } else if (!isNaN(data)) {
-        if (data < this.options.min) data = this.options.min;
-        if (data > this.options.max) data = this.options.max;
+      } else if (!isNaN(importedData)) {
+        if (importedData < this.options.min) importedData = this.options.min;
+        if (importedData > this.options.max) importedData = this.options.max;
 
-        var pos = (data - this.options.min) / total * 100;
+        var pos = (importedData - this.options.min) / total * 100;
         this.UI.handleLeft.style.left = pos + '%';
         this.UI.fill.style.left = '0%';
         this.UI.fill.style.right = 100 - pos + '%';
@@ -508,7 +508,7 @@ var Slider = function () {
       if (!topic || !listener) return;
 
       // Check validity of topic and listener
-      if (!this.topics.hasOwnProperty.call(this.topics, topic) || typeof topic !== 'string' || typeof listener !== 'function') return;
+      if (!this.topics.hasOwnProperty.call(this.topics, topic) || typeof topic !== 'string' || typeof listener !== 'function') return false;
 
       // Add the listener to queue
       // Retrieve the index for deletion
