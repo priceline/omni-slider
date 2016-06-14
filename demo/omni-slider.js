@@ -13,7 +13,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  */
 
 var Slider = function () {
-  function Slider(elementContainer, options) {
+  function Slider() {
+    var elementContainer = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
     _classCallCheck(this, Slider);
 
     // Validation of element, the only required argument
@@ -129,9 +132,13 @@ var Slider = function () {
 
 
     /* Helper method (replace with shared function from library) */
-    value: function extend(defaults, options) {
+    value: function extend() {
+      var defaults = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+      var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
       var extended = {};
       var prop = void 0;
+
       for (prop in defaults) {
         if (Object.prototype.hasOwnProperty.call(defaults, prop)) {
           extended[prop] = defaults[prop];
@@ -151,7 +158,9 @@ var Slider = function () {
 
   }, {
     key: 'init',
-    value: function init(options) {
+    value: function init() {
+      var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
       // Extend default options
       if ((typeof options === 'undefined' ? 'undefined' : _typeof(options)) === 'object') {
         this.options = this.extend(this.defaultOptions, options);
@@ -238,10 +247,16 @@ var Slider = function () {
 
   }, {
     key: '_applyCallback_',
-    value: function _applyCallback_(data, callback) {
+    value: function _applyCallback_() {
+      var data = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+      var callback = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+
       try {
+        if (!callback) return null;
+
         return callback.call(undefined, data);
       } catch (error) {
+
         throw error;
       }
     }
@@ -251,7 +266,11 @@ var Slider = function () {
 
   }, {
     key: 'starting',
-    value: function starting(event) {
+    value: function starting() {
+      var event = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+
+      if (!event) return;
+
       // Exit if disabled
       if (this.isDisabled) return;
 
@@ -448,7 +467,11 @@ var Slider = function () {
 
   }, {
     key: 'stopDefault',
-    value: function stopDefault(event) {
+    value: function stopDefault() {
+      var event = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+
+      if (!event) return;
+
       event.preventDefault();
     }
 
@@ -472,9 +495,15 @@ var Slider = function () {
 
   }, {
     key: 'subscribe',
-    value: function subscribe(topic, listener) {
+    value: function subscribe() {
+      var topic = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+      var listener = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+
+
+      if (!topic || !listener) return {};
+
       // Check validity of topic and listener
-      if (!this.topics.hasOwnProperty.call(this.topics, topic) || typeof topic !== 'string' || typeof listener !== 'function') return false;
+      if (!this.topics.hasOwnProperty.call(this.topics, topic) || typeof topic !== 'string' || typeof listener !== 'function') return {};
 
       // Add the listener to queue
       // Retrieve the index for deletion
@@ -495,7 +524,13 @@ var Slider = function () {
 
   }, {
     key: 'publish',
-    value: function publish(topic, data) {
+    value: function publish() {
+      var topic = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+      var data = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+
+
+      if (!topic || !data) return;
+
       // Check validity of topic
       if (!this.topics.hasOwnProperty.call(this.topics, topic) || typeof topic !== 'string') return;
 
