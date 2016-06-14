@@ -4,7 +4,7 @@
  */
 class Slider {
 
-  constructor( elementContainer = {}, options = {} ) {
+  constructor(elementContainer = {}, options = {}) {
 
     // Validation of element, the only required argument
     if (!elementContainer || (elementContainer.nodeName !== 'DIV' && elementContainer.tagName !== 'DIV')) return;
@@ -124,7 +124,7 @@ class Slider {
   }
 
   /* Helper method (replace with shared function from library) */
-  extend( defaults = {}, options = {} ) {
+  extend(defaults = {}, options = {}) {
     const extended = {};
     let prop;
 
@@ -144,7 +144,7 @@ class Slider {
   }
 
   // Initialize options and browser sniffing
-  init( options = {} ) {
+  init(options = {}) {
     // Extend default options
     if (typeof options === 'object') {
       this.options = this.extend(this.defaultOptions, options);
@@ -233,27 +233,22 @@ class Slider {
   /*
    * Apply call back using data provided
    **/
-  _applyCallback_( data = null, callback = null ) {
-
+  _applyCallback_(data = null, callback = null) {
     try {
+      if (!callback) return null;
 
-    	if (!callback) return;
-
-    	return callback.call(undefined, data);
-
+      return callback.call(undefined, data);
     } catch (error) {
 
       throw error;
 
     }
-
   }
 
   /* When handle is pressed
    * Attach all the necessary event handlers */
-  starting( event = null ) {
-
-  	if (!event) return;
+  starting(event = null) {
+    if (!event) return;
 
     // Exit if disabled
     if (this.isDisabled) return;
@@ -444,12 +439,10 @@ class Slider {
   }
 
   /* Utility function to stop default events */
-  stopDefault( event = null ) {
-
-  	if (!event) return;
+  stopDefault(event = null) {
+    if (!event) return;
 
     event.preventDefault();
-
   }
 
   /* Accessor for disable property */
@@ -466,14 +459,14 @@ class Slider {
    * Topic - keyword (start, moving, end)
    * Listener - function that will be called when topic is fired with argument of getInfo() data
    */
-  subscribe( topic = null, listener = null ) {
+  subscribe(topic = null, listener = null) {
 
-  	if (!topic || !listener) return;
+    if (!topic || !listener) return {};
 
     // Check validity of topic and listener
     if (!this.topics.hasOwnProperty.call(this.topics, topic) ||
       typeof topic !== 'string' ||
-       typeof listener !== 'function') return false;
+       typeof listener !== 'function') return {};
 
     // Add the listener to queue
     // Retrieve the index for deletion
@@ -491,9 +484,9 @@ class Slider {
    * Topic - keyword (start, moving, end)
    * Data - getInfo() result to pass into the listener
    */
-  publish( topic = null, data = null ) {
+  publish(topic = null, data = null) {
 
-		if (!topic || !data) return;
+    if (!topic || !data) return;
 
     // Check validity of topic
     if (!this.topics.hasOwnProperty.call(this.topics, topic) || typeof topic !== 'string') return;

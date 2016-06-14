@@ -138,6 +138,7 @@ var Slider = function () {
 
       var extended = {};
       var prop = void 0;
+
       for (prop in defaults) {
         if (Object.prototype.hasOwnProperty.call(defaults, prop)) {
           extended[prop] = defaults[prop];
@@ -162,10 +163,8 @@ var Slider = function () {
 
       // Extend default options
       if ((typeof options === 'undefined' ? 'undefined' : _typeof(options)) === 'object') {
-
-        this.options = Object.assign(this.defaultOptions, options);
+        this.options = this.extend(this.defaultOptions, options);
       } else {
-
         this.options = this.defaultOptions;
       }
 
@@ -252,10 +251,8 @@ var Slider = function () {
       var data = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
       var callback = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
 
-
       try {
-
-        if (!callback) return;
+        if (!callback) return null;
 
         return callback.call(undefined, data);
       } catch (error) {
@@ -271,7 +268,6 @@ var Slider = function () {
     key: 'starting',
     value: function starting() {
       var event = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
-
 
       if (!event) return;
 
@@ -474,7 +470,6 @@ var Slider = function () {
     value: function stopDefault() {
       var event = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
 
-
       if (!event) return;
 
       event.preventDefault();
@@ -505,10 +500,10 @@ var Slider = function () {
       var listener = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
 
 
-      if (!topic || !listener) return;
+      if (!topic || !listener) return {};
 
       // Check validity of topic and listener
-      if (!this.topics.hasOwnProperty.call(this.topics, topic) || typeof topic !== 'string' || typeof listener !== 'function') return false;
+      if (!this.topics.hasOwnProperty.call(this.topics, topic) || typeof topic !== 'string' || typeof listener !== 'function') return {};
 
       // Add the listener to queue
       // Retrieve the index for deletion
