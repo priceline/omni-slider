@@ -197,7 +197,24 @@ disabledSlider.disable(true);
 
 > #### Slider.prototype.disable
 > 
-> Makes the slider handle unmovable
+> Disabled makes the slider handle unmovable
+> Pass true to disable the slider
+> Pass false to reenable the slider
+> Defaults to true
+
+### Destory the slider
+
+```javascript
+var memoryLeak = new Slider(document.getElementById('leakingSlider'));
+memoryLeak.destroy(true);
+```
+
+> #### Slider.prototype.destroy
+> 
+> Cleaning up any stored DOM references and unsubscribing any registered callbacks
+> Pass true to remove the Slider from DOM and delete references
+> Pass false to remove references only keeping the slider in the DOM without any listeners
+> Defaults to false
 
 ## Development
 

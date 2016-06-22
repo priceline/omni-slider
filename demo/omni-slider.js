@@ -20,7 +20,7 @@ var Slider = function () {
     _classCallCheck(this, Slider);
 
     // Validation of element, the only required argument
-    if (!elementContainer || elementContainer.nodeName !== 'DIV' && elementContainer.tagName !== 'DIV') return;
+    if (!elementContainer.nodeName && !elementContainer.tagName) return;
 
     // Contains the options for this slider
     this.options = {
@@ -479,7 +479,9 @@ var Slider = function () {
 
   }, {
     key: 'disable',
-    value: function disable(boolean) {
+    value: function disable() {
+      var boolean = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
+
       this.isDisabled = boolean;
       if (this.isDisabled) {
         this.UI.slider.classList.add('slider-disabled');
@@ -538,6 +540,34 @@ var Slider = function () {
       this.topics[topic].forEach(function (event) {
         event(data);
       });
+    }
+
+    /* Destory
+     * Remove all traces of the slider in memory and dereference listeners
+     */
+
+  }, {
+    key: 'destroy',
+    value: function destroy() {
+      var deleteElem = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+
+      // Deference all listeners
+      document.removeEventListener('mousemove', this.movingHandler, true);
+      document.removeEventListener('mouseup', this.stopHandler, true);
+      document.removeEventListener('touchmove', this.movingHandler, true);
+      document.removeEventListener('touchend', this.stopHandler, true);
+      this.UI.handleLeft.onmousedown = null;
+      this.UI.handleLeft.ontouchstart = null;
+      this.UI.handleRight.onmousedown = null;
+      this.UI.handleRight.ontouchstart = null;
+
+      // DOM element itself
+      if (!!deleteElem) {
+        this.UI.slider.parentNode.removeChild(this.UI.slider);
+      }
+
+      // Reference to DOM
+      this.UI = null;
     }
   }, {
     key: 'defaultOptions',
