@@ -153,8 +153,13 @@ class Slider {
     }
 
     // Default start/end
-    this.options.start = this.options.start || this.options.min;
-    this.options.end = this.options.end || this.options.max;
+    if (!this.options.start && isNaN(this.options.start)) {
+      this.options.start = this.options.min;
+    }
+
+    if (!this.options.end && isNaN(this.options.end)) {
+      this.options.end = this.options.max;
+    }
 
     // Handle currency vs date type sanitization
     if (this.options.isDate) {
