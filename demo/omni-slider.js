@@ -426,7 +426,9 @@ var Slider = function () {
       var total = this.options.max - this.options.min;
 
       if ((typeof importedData === 'undefined' ? 'undefined' : _typeof(importedData)) === 'object') {
-        if (importedData.left) {
+        var isNumeric = !isNaN(parseFloat(importedData.left)) && isFinite(importedData.left);
+        var isDate = this.options.isDate && !!importedData.left;
+        if (isDate || isNumeric) {
           if (importedData.left < this.options.min) importedData.left = this.options.min;
           if (importedData.left > this.options.max) importedData.left = this.options.max;
 
@@ -435,7 +437,9 @@ var Slider = function () {
           this.UI.fill.style.left = posLeft + '%';
         }
 
-        if (importedData.right) {
+        isDate = this.options.isDate && !!importedData.right;
+        isNumeric = !isNaN(parseFloat(importedData.right)) && isFinite(importedData.right);
+        if (isDate || isNumeric) {
           if (importedData.right < this.options.min) importedData.right = this.options.min;
           if (importedData.right > this.options.max) importedData.right = this.options.max;
 
