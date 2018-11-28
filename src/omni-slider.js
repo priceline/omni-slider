@@ -153,8 +153,13 @@ class Slider {
     }
 
     // Default start/end
-    this.options.start = this.options.start || this.options.min;
-    this.options.end = this.options.end || this.options.max;
+    if (!this.options.start && isNaN(this.options.start)) {
+      this.options.start = this.options.min;
+    }
+
+    if (!this.options.end && isNaN(this.options.end)) {
+      this.options.end = this.options.max;
+    }
 
     // Handle currency vs date type sanitization
     if (this.options.isDate) {
@@ -210,15 +215,20 @@ class Slider {
     const left = this.UI.fill.style.left ? parseFloat(this.UI.fill.style.left.replace('%', '')) : 0;
     const right = this.UI.fill.style.right ? parseFloat(this.UI.fill.style.right.replace('%', '')) : 0;
 
+    // when a handle reach 100 (its extreme) then simply set the value to the extreme
+    // rather than calculate its value
+    const leftVal = left === 100 ? this.options.max : this.options.min + left / 100 * total;
+    const rightVal = right === 100 ? this.options.min : this.options.max - right / 100 * total;
+
     if (this.options.isDate) {
       info = {
-        left: new Date(this.options.min + (left / 100) * total),
-        right: new Date(this.options.max - (right / 100) * total),
+        left: new Date(leftVal),
+        right: new Date(rightVal)
       };
     } else {
       info = {
-        left: this.options.min + (left / 100) * total,
-        right: this.options.max - (right / 100) * total,
+        left: leftVal,
+        right: rightVal
       };
     }
 
@@ -396,7 +406,9 @@ class Slider {
     const total = this.options.max - this.options.min;
 
     if (typeof importedData === 'object') {
-      if (importedData.left) {
+      let isNumeric = !isNaN(parseFloat(importedData.left)) && isFinite(importedData.left);
+      let isDate = this.options.isDate && !!importedData.left;
+      if (isDate || isNumeric) {
         if (importedData.left < this.options.min) importedData.left = this.options.min;
         if (importedData.left > this.options.max) importedData.left = this.options.max;
 
@@ -405,7 +417,9 @@ class Slider {
         this.UI.fill.style.left = posLeft + '%';
       }
 
-      if (importedData.right) {
+      isDate = this.options.isDate && !!importedData.right;
+      isNumeric = !isNaN(parseFloat(importedData.right)) && isFinite(importedData.right);
+      if (isDate || isNumeric) {
         if (importedData.right < this.options.min) importedData.right = this.options.min;
         if (importedData.right > this.options.max) importedData.right = this.options.max;
 
@@ -466,7 +480,7 @@ class Slider {
     // Check validity of topic and listener
     if (!this.topics.hasOwnProperty.call(this.topics, topic) ||
       typeof topic !== 'string' ||
-       typeof listener !== 'function') return {};
+      typeof listener !== 'function') return {};
 
     // Add the listener to queue
     // Retrieve the index for deletion

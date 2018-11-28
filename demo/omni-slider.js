@@ -1,7 +1,7 @@
 ;(function() {
 'use strict';
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -11,11 +11,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * elementContainer - this acts as a wrapper for the slider, all of the sliders DOM elements will be transcluded inside the <element> provided
  * options - contains the options for the slider
  */
-
 var Slider = function () {
   function Slider() {
-    var elementContainer = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+    var elementContainer = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     _classCallCheck(this, Slider);
 
@@ -133,8 +132,8 @@ var Slider = function () {
 
     /* Helper method (replace with shared function from library) */
     value: function extend() {
-      var defaults = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-      var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+      var defaults = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
       var extended = {};
       var prop = void 0;
@@ -159,7 +158,7 @@ var Slider = function () {
   }, {
     key: 'init',
     value: function init() {
-      var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+      var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
       // Extend default options
       if ((typeof options === 'undefined' ? 'undefined' : _typeof(options)) === 'object') {
@@ -169,8 +168,13 @@ var Slider = function () {
       }
 
       // Default start/end
-      this.options.start = this.options.start || this.options.min;
-      this.options.end = this.options.end || this.options.max;
+      if (!this.options.start && isNaN(this.options.start)) {
+        this.options.start = this.options.min;
+      }
+
+      if (!this.options.end && isNaN(this.options.end)) {
+        this.options.end = this.options.max;
+      }
 
       // Handle currency vs date type sanitization
       if (this.options.isDate) {
@@ -221,15 +225,20 @@ var Slider = function () {
       var left = this.UI.fill.style.left ? parseFloat(this.UI.fill.style.left.replace('%', '')) : 0;
       var right = this.UI.fill.style.right ? parseFloat(this.UI.fill.style.right.replace('%', '')) : 0;
 
+      // when a handle reach 100 (its extreme) then simply set the value to the extreme
+      // rather than calculate its value
+      var leftVal = left === 100 ? this.options.max : this.options.min + left / 100 * total;
+      var rightVal = right === 100 ? this.options.min : this.options.max - right / 100 * total;
+
       if (this.options.isDate) {
         info = {
-          left: new Date(this.options.min + left / 100 * total),
-          right: new Date(this.options.max - right / 100 * total)
+          left: new Date(leftVal),
+          right: new Date(rightVal)
         };
       } else {
         info = {
-          left: this.options.min + left / 100 * total,
-          right: this.options.max - right / 100 * total
+          left: leftVal,
+          right: rightVal
         };
       }
 
@@ -248,8 +257,8 @@ var Slider = function () {
   }, {
     key: '_applyCallback_',
     value: function _applyCallback_() {
-      var data = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
-      var callback = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+      var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      var callback = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
       try {
         if (!callback) return null;
@@ -267,7 +276,7 @@ var Slider = function () {
   }, {
     key: 'starting',
     value: function starting() {
-      var event = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+      var event = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
       if (!event) return;
 
@@ -422,7 +431,9 @@ var Slider = function () {
       var total = this.options.max - this.options.min;
 
       if ((typeof importedData === 'undefined' ? 'undefined' : _typeof(importedData)) === 'object') {
-        if (importedData.left) {
+        var isNumeric = !isNaN(parseFloat(importedData.left)) && isFinite(importedData.left);
+        var isDate = this.options.isDate && !!importedData.left;
+        if (isDate || isNumeric) {
           if (importedData.left < this.options.min) importedData.left = this.options.min;
           if (importedData.left > this.options.max) importedData.left = this.options.max;
 
@@ -431,7 +442,9 @@ var Slider = function () {
           this.UI.fill.style.left = posLeft + '%';
         }
 
-        if (importedData.right) {
+        isDate = this.options.isDate && !!importedData.right;
+        isNumeric = !isNaN(parseFloat(importedData.right)) && isFinite(importedData.right);
+        if (isDate || isNumeric) {
           if (importedData.right < this.options.min) importedData.right = this.options.min;
           if (importedData.right > this.options.max) importedData.right = this.options.max;
 
@@ -468,7 +481,7 @@ var Slider = function () {
   }, {
     key: 'stopDefault',
     value: function stopDefault() {
-      var event = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+      var event = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
       if (!event) return;
 
@@ -496,8 +509,8 @@ var Slider = function () {
   }, {
     key: 'subscribe',
     value: function subscribe() {
-      var topic = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
-      var listener = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+      var topic = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      var listener = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
 
       if (!topic || !listener) return {};
@@ -525,8 +538,8 @@ var Slider = function () {
   }, {
     key: 'publish',
     value: function publish() {
-      var topic = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
-      var data = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+      var topic = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+      var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
 
       if (!topic || !data) return;
